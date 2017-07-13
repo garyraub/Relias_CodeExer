@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang=en">
+	<head>	
+		<!--Browser title-->
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>World's Greatest Movie Database</title>
+		<!--load jquery libraries-->
+		<!--https://stackoverflow.com/questions/14106864/linking-jquery-in-html--->
+		 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>		
+	</head>	
+	<body>	
+			<!--Website titles/text-->
+			<h1>Top Fan Movie Search Site</h1>
+			<br>
+			<h2>Bestest site ever - endorsed by Gary Raub</h2>		
+
+			<!-- Seach box and search button-->				
+			<input type="text" name="term" placeholder="enter movie name"/>
+			<input type="submit" value="Search for movies"/>	
+			
+	<!--Javascript call-->		
+	<!--API - jquery-in-html--->	
+	<script type="text/javascript" charset="utf-8">
+ 	
+		<!--define varaibles-->	
+		<!--view-source:http://dev.travisbell.com/play/tmdb.html-->	
+		var api_key = 'c4b798d4905c106a46e79d99e9f61994';
+		var movie_title = document.getElementsByName("term")[0].value;
+	
+		$(document).ready(function (){
+        
+			function formChanged() {
+				var movie_title = document.getElementById("term").value;
+				}
+		
+			$.ajax({
+			url: 'https://api.themoviedb.org/3/search/movie?api_key=' + api_key + '&query=' + movie_title,
+			dataType: 'jsonp',
+			jsonpCallback: 'testing'
+			}).error(function() {
+			console.log('error')
+			}).done(function(response) {
+			for (var i = 0; i < response.results.length; i++) {
+			$('#search_results').append('<li>' + response.results[i].title + '</li>');
+			}
+		});
+	});
+	</script>
+	<h2> Movies meeting your search criteria</h2>	
+	<hr>
+	<p id="error"></p>
+	<ol id="search_results"></ol>
+	</body>
+</html>
